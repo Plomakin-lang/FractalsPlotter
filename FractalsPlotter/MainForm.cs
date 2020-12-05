@@ -14,6 +14,7 @@ namespace FractalsPlotter
 {
     public partial class mainForm : Form
     {
+
         Bitmap treeImage;
         public mainForm()
         {
@@ -32,15 +33,13 @@ namespace FractalsPlotter
             if (length > 0 && depth > 0)
             {
                 Graphics graphics = pbTree.CreateGraphics();
-                angle = this.GetRadians(angle);
-                int endX = (int)(Math.Sin(angle) * length);
-                int endY = (int)(Math.Cos(angle) * length);
+                int endX = (int)(Math.Sin(GetRadians(angle)) * length);
+                int endY = (int)(Math.Cos(GetRadians(angle)) * length);
                 graphics.DrawLine(new Pen(Color.Blue), new Point(startX, startY), new Point(startX - endX, startY + endY));
-                int newLength = (int)((double)length * 0.8);
+                int newLength = (int)((double)length / 1.5);
                 this.DrawTree(depth - 1, startX - endX, startY + endY, newLength, angle + 45);
                 this.DrawTree(depth - 1, startX - endX, startY + endY, newLength, angle - 45);
             }
-
         }
         void Clear()
         {
@@ -52,6 +51,7 @@ namespace FractalsPlotter
         {
             //this.DrawTree(e, this.pbTree.Width / 2, this.pbTree.Height/2, 100,0);
         }
+
         void Draw()
         {
             try
@@ -75,12 +75,17 @@ namespace FractalsPlotter
 
         private void tbDepth_TextChanged(object sender, EventArgs e)
         {
-            this.Draw();
+             this.Draw();
         }
 
         private void cbType_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.Draw();
+        }
+
+        private void mainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
