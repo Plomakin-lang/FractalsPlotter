@@ -12,54 +12,46 @@ using System.Windows.Forms;
 
 namespace FractalsPlotter
 {
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
-
-        Bitmap treeImage;
-        public mainForm()
+        private Color backgroundColor = Color.White;
+        public MainForm()
         {
             InitializeComponent();
             foreach (var item in Constants.Fractals.fractalsNames)
                 this.cbType.Items.Add(item);
-            cbType.SelectedIndex = 0;           
+            cbType.SelectedIndex = 0;
         }
-
-        double GetRadians(double angle)
-        {
-            return Math.PI * angle / 180;
-        }
-        void DrawTree(int depth, int startX, int startY, int length, double angle)
-        {
-            if (length > 0 && depth > 0)
-            {
-                Graphics graphics = pbTree.CreateGraphics();
-                int endX = (int)(Math.Sin(GetRadians(angle)) * length);
-                int endY = (int)(Math.Cos(GetRadians(angle)) * length);
-                graphics.DrawLine(new Pen(Color.Blue), new Point(startX, startY), new Point(startX - endX, startY + endY));
-                int newLength = (int)((double)length / 1.5);
-                this.DrawTree(depth - 1, startX - endX, startY + endY, newLength, angle + 45);
-                this.DrawTree(depth - 1, startX - endX, startY + endY, newLength, angle - 45);
-            }
-        }
-        void Clear()
-        {
-            Graphics graphics = pbTree.CreateGraphics();
-            graphics.Clear(Color.White);
-        }
-
-        private void pbTree_Paint(object sender, PaintEventArgs e)
-        {
-            //this.DrawTree(e, this.pbTree.Width / 2, this.pbTree.Height/2, 100,0);
-        }
-
         void Draw()
         {
             try
             {
                 if (this.tbDepth.Text != String.Empty)
                 {
-                    this.Clear();
-                    this.DrawTree(Convert.ToInt32(this.tbDepth.Text), this.pbTree.Width / 2, 0, 100, 0);
+                    int depth = Convert.ToInt32(this.tbDepth.Text);
+                    if (cbType.SelectedItem.ToString() == Constants.Fractals.pyphagorTree)
+                    {
+                        if (txbAngleRight.Text != String.Empty && txbAngleLeft.Text != String.Empty)
+                        {
+                            int leftAngle = Convert.ToInt32(this.txbAngleLeft.Text);
+                            int rightAngle = Convert.ToInt32(this.txbAngleRight.Text);
+                            FractalTree tree = new FractalTree(0, this.pbFractal.Width / 2, 100, depth, leftAngle, rightAngle);
+                            tree.Fill(this.pbFractal, this.backgroundColor);
+                            tree.Draw(this.pbFractal);
+                        }
+                    }
+                    if (cbType.SelectedItem.ToString() == Constants.Fractals.windTree)
+                    {
+                        if (txbAngleRight.Text != String.Empty && txbAngleLeft.Text != String.Empty)
+                        {
+                            int leftAngle = Convert.ToInt32(this.txbAngleLeft.Text);
+                            int rightAngle = Convert.ToInt32(this.txbAngleRight.Text);
+                            FractalTree tree = new FractalTree(0, this.pbFractal.Width / 2, 100, depth, leftAngle, rightAngle);
+                            tree.Fill(this.pbFractal, this.backgroundColor);
+                            tree.Draw(this.pbFractal, depth, this.pbFractal.Width / 2, 0, 100, 0, 60, 30);
+                        }
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -67,25 +59,35 @@ namespace FractalsPlotter
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void btnPlot_Click(object sender, EventArgs e)
+        private bool IsTreeChecked()
         {
-            this.Draw();
+            return (String)this.cbType.SelectedItem == Constants.Fractals.pyphagorTree || (String)this.cbType.SelectedItem == Constants.Fractals.windTree;
         }
-
-        private void tbDepth_TextChanged(object sender, EventArgs e)
-        {
-             this.Draw();
-        }
-
         private void cbType_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.Draw();
+            lblAngleLeft.Visible = IsTreeChecked();
+            lblAngleRight.Visible = IsTreeChecked();
+            txbAngleLeft.Visible = IsTreeChecked();
+            txbAngleRight.Visible = IsTreeChecked();
         }
-
         private void mainForm_Load(object sender, EventArgs e)
         {
 
+        }
+        private void tbDepth_TextChanged(object sender, EventArgs e)
+        {
+            this.Draw();
+        }
+
+        private void txbAngleLeft_TextChanged(object sender, EventArgs e)
+        {
+            this.Draw();
+        }
+
+        private void txbAngleRight_TextChanged(object sender, EventArgs e)
+        {
+            this.Draw();
         }
     }
 }
