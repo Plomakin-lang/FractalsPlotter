@@ -18,8 +18,8 @@ namespace FractalsPlotter.Classes
         int x;
         int y;
         int depth;
-
         int size;
+        Color color;
         #endregion
         #region Public
         /// <summary>
@@ -73,7 +73,9 @@ namespace FractalsPlotter.Classes
                 return this.size;
             }
         }
-
+        /// <summary>
+        /// Глубина рекурсии - сколько повторов фрактала будет отрисовано
+        /// </summary>
         public int Depth
         {
             set
@@ -88,6 +90,10 @@ namespace FractalsPlotter.Classes
                 return this.depth;
             }
         }
+        /// <summary>
+        /// Цвет отрисовки фрактала
+        /// </summary>
+        public Color Color { set { this.color = value; } get { return this.color; } }
         #endregion
         #endregion
         #region Конструкторы
@@ -98,14 +104,15 @@ namespace FractalsPlotter.Classes
         /// <param name="y">начальная координата по Y</param>
         /// <param name="size">начальный размер</param>
         /// <param name="depth">глубина рекурсии при построении фрактала</param>
-        public Fractal(int x, int y, int size, int depth)
+        public Fractal(int x, int y, int size, int depth, Color color)
         {
             this.X = x;
             this.Y = y;
             this.Size = size;
             this.Depth = depth;
+            this.Color = color;
         }
-        public Fractal() : this(0, 0, 1, 10)
+        public Fractal() : this(0, 0, 1, 10, Color.Blue)
         {
 
         }

@@ -13,7 +13,8 @@ namespace FractalsPlotter.Classes
             public static string pyphagorTree = "Пифагорово дерево";
             public static string windTree = "Обдуваемое ветром фрактальное дерево";
             public static string kohLine = "Кривая Коха";
-            public static List<String> fractalsNames = new List<string>() { pyphagorTree, windTree, kohLine };
+            public static string triangle = "Треугольник Серпинского";
+            public static List<String> fractalsNames = new List<string>() { pyphagorTree, windTree, triangle };
         }
     }
 }

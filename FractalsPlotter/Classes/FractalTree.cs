@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FractalsPlotter.Classes
 {
+    /// <summary>
+    /// Фрактальное дерево
+    /// </summary>
     class FractalTree : Fractal
     {
         int angleLeft;
         int angleRight;
-        public FractalTree(int x, int y, int size, int depth, int angleLeft, int angleRight) : base(x, y, size, depth)
+        public FractalTree(int x, int y, int size, int depth, int angleLeft, int angleRight, Color color) : base(x, y, size, depth, color)
         {
             this.angleLeft = angleLeft;
             this.angleRight = angleRight;
@@ -24,7 +23,7 @@ namespace FractalsPlotter.Classes
                 Graphics graphics = pictureBox.CreateGraphics();
                 int endX = (int)(Math.Sin(GetRadians(angle)) * length);
                 int endY = (int)(Math.Cos(GetRadians(angle)) * length);
-                graphics.DrawLine(new Pen(Color.Blue), new Point(startX, startY), new Point(startX - endX, startY + endY));
+                graphics.DrawLine(new Pen(this.Color), new Point(startX, startY), new Point(startX - endX, startY + endY));
                 int newLength = (int)((double)length / 1.5);
                 this.Draw(pictureBox, depth - 1, startX - endX, startY + endY, newLength, angle + deltaAngleLeft, deltaAngleLeft, deltaAngleRight);
                 this.Draw(pictureBox, depth - 1, startX - endX, startY + endY, newLength, angle - deltaAngleRight, deltaAngleLeft, deltaAngleRight);

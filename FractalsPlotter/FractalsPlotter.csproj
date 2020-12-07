@@ -49,6 +49,7 @@
     <Compile Include="Classes\Constants.cs" />
     <Compile Include="Classes\Fractal.cs" />
     <Compile Include="Classes\FractalTree.cs" />
+    <Compile Include="Classes\FractalTriangle.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
